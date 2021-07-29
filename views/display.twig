@@ -1,0 +1,50 @@
+{% extends "index.twig" %}
+{% block body %}
+<form class="form-header" action="/verif" method="post">
+                                <input class="au-input au-input--xl" type="text" name="search" placeholder="Search" />
+                                <button class="au-btn--submit" type="submit">
+                                    <i class="zmdi zmdi-search"></i>
+                                </button>
+</form>
+<div class="row" style="margin-top:20px;">
+                            <div class="col-lg-12">
+                                <div class="table-responsive table--no-card m-b-30">
+                                    <table class="table table-borderless table-striped table-earning">
+                                        <thead>
+                                            <tr>
+                                                <th>Employee's Ref</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th class="text-right">Date</th>
+                                                <th class="text-right">Time</th>
+                                                <th class="text-right">State</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                             {% for item in docs %}
+                                            <tr>
+                                                <td>{{ item.ref}}</td>
+                                                <td>{{ item.first_name}}</td>
+                                                <td>{{ item.last_name}}</td>
+                                                <td>{{ item.date|date("m/d/Y")}}</td>
+                                                <td>{{ item.date|date('H:i:s')}}</td>
+                                                <td class="text-right">
+                                                {% if item.etat == 1   %}
+                                                <p style="color:green;">Safe Passage</p>
+                                                {% else %}
+                                                <p style="color:red;">Detected</p>
+                                                {% endif %}
+                                                
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+{% endblock %}

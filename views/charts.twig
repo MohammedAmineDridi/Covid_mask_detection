@@ -1,0 +1,272 @@
+{% extends "index.twig" %}
+
+{% block body %}
+
+
+                        <div class="row m-t-25">
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="overview-item overview-item--c3">
+                                    <div class="overview__inner">
+                                        <div class="overview-box clearfix">
+                                            <div class="icon">
+                                                <i class="zmdi zmdi-calendar-note"></i><div class='text'><span style="font-size:55px; margin-left:28px;">It's</span></div>
+                                                <div class='text'><span  style="font-size:25px;">{{ "now"|date("m/d/Y") }}</span></div>
+                                            </div>
+                                            <!--<div class="text">
+                                            </div>-->
+                                        </div>
+                                        <div class="overview-chart">
+                                            <canvas id="widgetChart4"></canvas>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="overview-item overview-item--c1">
+                                    <div class="overview__inner">
+                                        <div class="overview-box clearfix">
+                                            <div class="icon">
+                                                <i class="zmdi zmdi-account-o"></i>
+                                            </div>
+                                            <div class="text">
+                                                <h2>Detected</h2>
+                                                <span id='ddd'></span>
+                                            </div>
+                                        </div>
+                                        <div class="overview-chart">
+                                            <canvas id="widgetChart1"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="overview-item overview-item--c2">
+                                    <div class="overview__inner">
+                                        <div class="overview-box clearfix">
+                                            <div class="icon">
+                                                <i class="zmdi zmdi-account-o"></i>
+                                            </div>
+                                            <div class="text">
+                                                <h2>Safe Pass</h2>
+                                                <span id="ggg"></span>
+                                            </div>
+                                        </div>
+                                        <div class="overview-chart">
+                                            <canvas id="widgetChart2"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="row">
+                            
+                            <div class="col-lg-6">
+                                <div class="au-card chart-percent-card">
+                                    <div class="au-card-inner">
+                                        <h3 class="title-2 tm-b-5">Global view</h3>
+                                        <div class="row no-gutters">
+                                            <div class="col-xl-6">
+                                                <div class="chart-note-wrap">
+                                                    <div class="chart-note mr-0 d-block">
+                                                        <span class="dot dot--blue"></span>
+                                                        <span>Safe passage</span>
+                                                    </div>
+                                                    <div class="chart-note mr-0 d-block">
+                                                        <span class="dot dot--red"></span>
+                                                        <span>Detected</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="percent-chart">
+                                                    <canvas id="percent-chart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="au-card m-b-30">
+                                    <div class="au-card-inner">
+                                        <h3 class="title-2 m-b-40">Specific details</h3>
+                                        <canvas id="radarChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+{% endblock %}
+
+{% block addjs %}
+
+<script>
+var myarray=[0,0,0,0,0,0,0];
+ajaxmethodes();
+setTimeout(() => {next();},500);
+   
+function ajaxmethodes(){
+$.ajax({
+       url :'/stat/verifd',
+       type : 'GET',
+       success : function(data){$('#ddd').text(data);}
+     });
+$.ajax({
+       url :'/stat/verifg',
+       type : 'GET',
+       success : function(data){$('#ggg').text(data);}
+       
+     });
+$.ajax({
+       url :'/stat//verifc0',
+       type : 'GET',
+       success : function(data){myarray[0]=data;}
+     });
+$.ajax({
+       url :'/stat//verifc1',
+       type : 'GET',
+       success : function(data){myarray[1]=data;}
+     });
+$.ajax({
+       url :'/stat//verifc2',
+       type : 'GET',
+       success : function(data){myarray[2]=data;}
+     });
+$.ajax({
+       url :'/stat//verifc3',
+       type : 'GET',
+       success : function(data){myarray[3]=data;}
+     });
+$.ajax({
+       url :'/stat//verifc4',
+       type : 'GET',
+       success : function(data){myarray[4]=data;}
+     });
+$.ajax({
+       url :'/stat//verifc5',
+       type : 'GET',
+       success : function(data){myarray[5]=data;}
+     });
+$.ajax({
+       url :'/stat//verifc6',
+       type : 'GET',
+       success : function(data){myarray[6]=data;}
+     });
+
+};
+function next(){
+var ctx = document.getElementById("percent-chart");
+    if (ctx) {
+      ctx.height = 180;
+      var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          datasets: [
+            {
+              label: "My First dataset",
+              data: [$("#ggg").text(),$("#ddd").text()],
+              backgroundColor: [
+                '#00b5e9',
+                '#fa4251'
+              ],
+              hoverBackgroundColor: [
+                '#00b5e9',
+                '#fa4251'
+              ],
+              borderWidth: [
+                0, 0
+              ],
+              hoverBorderColor: [
+                'transparent',
+                'transparent'
+              ]
+            }
+          ],
+          labels: [
+            'Safe Pass',
+            'Detected'
+          ]
+        },
+        options: {
+          maintainAspectRatio: false,
+          responsive: true,
+          cutoutPercentage: 55,
+          animation: {
+            animateScale: true,
+            animateRotate: true
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            titleFontFamily: "Poppins",
+            xPadding: 15,
+            yPadding: 10,
+            caretPadding: 0,
+            bodyFontSize: 16
+          }
+        }
+      });
+    }
+//**********************************
+var ctx = document.getElementById("radarChart");
+    if (ctx) {
+      ctx.height = 200;
+      var myChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['Always Safe', 'Just Once', ["Just Once","Last One"],'Less Than Two Times', "Tree Times", "+3", "+5"],
+          defaultFontFamily: 'Poppins',
+          datasets: [
+            { label: "Employee behavior",
+              data: [myarray[0], myarray[1], myarray[2], myarray[3], myarray[4], myarray[5], myarray[6]],
+              borderColor: "rgba(0, 123, 255, 0.7",
+              borderWidth: "1",
+              backgroundColor: "rgba(0, 123, 255, 0.5)"
+            }
+          ]
+        },
+        options: {
+          legend: {
+            position: 'top',
+            labels: {
+              fontFamily: 'Poppins'
+            }
+
+          },
+          scale: {
+            ticks: {
+              beginAtZero: true,
+              fontFamily: "Poppins"
+            }
+          }
+        }
+      });
+    }
+       
+                 };
+
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

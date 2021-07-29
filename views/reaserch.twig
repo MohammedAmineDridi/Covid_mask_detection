@@ -1,0 +1,80 @@
+{% extends "index.twig" %}
+{% block body %}
+
+<div class="col-lg-6" style="margin-left:250px;margin-top:50px;">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>Global OverView</strong>
+                                    </div>
+                                    <div class="card-body card-block">
+                                        <form action="/mailing" method="post" class="form-horizontal">
+                                            <div class="row form-group">
+                                                <div class="col col-md-6">
+                                                    <label class=" form-control-label">Employee's Ref : </label>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <p class="form-control-static">{{docs[0].ref}}</p>
+                                                    <input type="text" style="visibility: hidden;" value="{{docs[0].ref}}" name="ident">
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col col-md-6">
+                                                    <label class=" form-control-label">Name : </label>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <p class="form-control-static">{{docs[0].first_name}}~{{docs[0].last_name}}</p>
+                                                    <input type="text" style="visibility: hidden;" value="{{docs[0].first_name }}"~"{{docs[0].last_name}}" name="nom">
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col col-md-6">
+                                                    <label class=" form-control-label">Last time Detected :</label>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <p class="form-control-static">{{docs[0].date|date("m/d/Y")}}~{{docs[0].date|date('H:i:s')}}</p>
+                                                    <input type="text" style="visibility: hidden;" value="{{docs[0].date|date("m/d/Y")}}"~"{{docs[0].date|date('H:i:s')}}" name="dat">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row form-group">
+                                                <div class="col col-md-6">
+                                                    <label for="email-input" class=" form-control-label">Email : </label>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <input type="email" id="email-input" name="emai" value="{{docs[0].email}}" class="form-control">
+                                                    <small class="help-block form-text"></small>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col col-md-6">
+                                                    <label class=" form-control-label">Penalizations : </label>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <p class="form-control-static">{{docs[0].coef}}</p>
+                                                    <input type="text" style="visibility: hidden;" value="{{docs[0].coef}}" name="coef">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="textarea" class=" form-control-label">Description : </label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                    <textarea name="textarea" id="textarea" rows="3" placeholder="Content..." class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            <i class="fa fa-dot-circle-o"></i> Submit
+                                        </button>
+                                    </div>
+                                    </form>
+                                </div>
+                                
+                            </div>
+
+
+
+
+{% endblock %}
